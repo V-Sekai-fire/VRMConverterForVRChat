@@ -63,6 +63,9 @@ namespace Esperecyan.Unity.VRMConverterForVRChat
         /// <param name="swayingParametersConverter"></param>
         /// <param name="swayingParametersConverter"></param>
         /// <param name="addedShouldersPositionY">VRChat上でモデルがなで肩・いかり肩になる問題について、Shoulder/UpperArmボーンのPositionのYに加算する値。</param>
+        /// <param name="addedChestPositionY">VRChat上で腰が曲がる問題について、ChestボーンのPositionのYに加算する値。</param>
+        /// <param name="moveEyeBoneToFrontForEyeMovement">【SDK2のみ】オートアイムーブメント有効化時、目ボーンのPositionのZに加算する値。</param>
+        /// <param name="forQuest">Quest版用アバター向けに変換するなら <c>true</c>。</param>
         /// <param name="addedArmaturePositionY">VRChat上で足が沈む問題について、Hipsボーンの一つ上のオブジェクトのPositionのYに加算する値。</param>
         /// <param name="useShapeKeyNormalsAndTangents"><c>false</c> の場合、シェイプキーの法線・接線を削除します。</param>
         /// <param name="oscComponents"></param>
@@ -78,6 +81,9 @@ namespace Esperecyan.Unity.VRMConverterForVRChat
             VRMBlendShapeClip? vrmBlendShapeForFINGERPOINT = null,
             bool keepingUpperChest = false,
             float addedShouldersPositionY = 0.0f,
+            float addedChestPositionY = 0.0f,
+            float moveEyeBoneToFrontForEyeMovement = 0.0f,
+            bool forQuest = false,
             float addedArmaturePositionY = 0.0f,
             bool useShapeKeyNormalsAndTangents = false,
             OSCComponents oscComponents = OSCComponents.Blink,
@@ -110,6 +116,9 @@ namespace Esperecyan.Unity.VRMConverterForVRChat
                 keepingUpperChest,
                 addedShouldersPositionY: addedShouldersPositionY,
                 addedArmaturePositionY: addedArmaturePositionY
+                addedChestPositionY: addedChestPositionY,
+                moveEyeBoneToFrontForEyeMovement: moveEyeBoneToFrontForEyeMovement,
+                forQuest: forQuest
             ));
 
             var meta = prefabInstance.GetComponent<VRMMeta>();

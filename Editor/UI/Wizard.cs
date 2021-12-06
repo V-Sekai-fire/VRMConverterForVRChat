@@ -1,4 +1,4 @@
-#nullable enable
+        #nullable enable
 using System;
 using System.Reflection;
 using System.Linq;
@@ -57,6 +57,12 @@ namespace Esperecyan.Unity.VRMConverterForVRChat.UI
         /// </summary>
         [SerializeField, Localizable(-0.1f, 0.1f)]
         private float armatureHeight = default;
+
+        /// <summary>
+        /// VRChat上で腰が曲がる問題について、ChestボーンのPositionのYに加算する値。
+        /// </summary>
+        [SerializeField, Localizable(-0.1f, 0.1f)]
+        private float chestHeight = default;
 
         /// <summary>
         /// メッシュ・サブメッシュの結合を行うなら <c>true</c>。
@@ -617,21 +623,25 @@ namespace Esperecyan.Unity.VRMConverterForVRChat.UI
 
             var clips = VRMUtility.GetAllVRMBlendShapeClips(avatar: this.avatar.gameObject);
             messages.AddRange(Converter.Convert(
-                prefabInstance,
-                clips,
-                this.forQuest,
-                this.swayingObjects,
-                this.takeOverSwayingParameters,
-                this.swayingParametersConverter,
-                !string.IsNullOrEmpty(this.blendShapeForFingerpoint)
-                    ? (VRMBlendShapeClip)VRMUtility.GetUserDefinedBlendShapeClip(clips, this.blendShapeForFingerpoint)
-                    : null,
-                this.keepingUpperChest,
-                this.shoulderHeights,
-                this.armatureHeight,
-                this.useShapeKeyNormalsAndTangents,
-                this.oscComponents,
-                this.postConverting
+            prefabInstance: prefabInstance,
+            clips: clips,
+            swayingObjectsConverterSetting: this.swayingObjects,
+            takingOverSwayingParameters: this.takeOverSwayingParameters,
+            swayingParametersConverter: this.swayingParametersConverter,
+            enableAutoEyeMovement: this.enableEyeMovement,
+            addedShouldersPositionY: this.shoulderHeights,
+            addedChestPositionY: this.chestHeight,
+            moveEyeBoneToFrontForEyeMovement: this.moveEyeBoneToFrontForEyeMovement,
+            forQuest: this.forQuest,
+            addedArmaturePositionY: this.armatureHeight,
+            useAnimatorForBlinks: this.useAnimatorForBlinks,
+            useShapeKeyNormalsAndTangents: this.useShapeKeyNormalsAndTangents,
+            vrmBlendShapeForFINGERPOINT: !string.IsNullOrEmpty(this.blendShapeForFingerpoint)
+                ? VRMUtility.GetUserDefinedBlendShapeClip(clips, this.blendShapeForFingerpoint) as VRMBlendShapeClip
+                : null,
+            keepingUpperChest: this.keepingUpperChest,
+            oscComponents: this.oscComponents,
+            postConverting: this.postConverting
             ));
 
             // 変換前のプレハブのPipeline ManagerのBlueprint IDを反映
