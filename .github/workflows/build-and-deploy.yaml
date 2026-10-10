@@ -9,6 +9,11 @@ on:
                 type: string
                 required: true
 
+permissions:
+  contents: read
+  id-token: write
+  pages: write
+
 jobs:
     build:
         timeout-minutes: 60
